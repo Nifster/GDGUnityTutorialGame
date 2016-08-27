@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
 	// NOTE: Anything with [SerializeField] is editable in the unity editor.
 
 	[SerializeField]
-	private GameObject prefabCollectible = null;
+	private GameObject prefabToSpawn = null;
 
 	//[SerializeField]
 	private Rect scoreRect = new Rect(40,40,200,100);
@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour {
 		nextSpawnTime = Time.time + spawnCooldown;
 	}
 
+    public void EnemyKilled()
+    {
+        score++;
+    }
+
 	public void ItemCollected() {
 		score++;
 		collectibleCount--;
@@ -87,13 +92,13 @@ public class GameManager : MonoBehaviour {
 		float spawnX = Random.Range(spawnLimitBottomLeft.x, spawnLimitTopRight.x);
 		float spawnY = Random.Range(spawnLimitBottomLeft.y, spawnLimitTopRight.y);
 
-		Instantiate(prefabCollectible, new Vector3(spawnX, spawnY, 0), prefabCollectible.transform.rotation);
+		Instantiate(prefabToSpawn, new Vector3(spawnX, spawnY, 0), prefabToSpawn.transform.rotation);
 	}
 
 	// Update() : Update is called once per frame
 	void Update() {
 		// Controls the spawning of collectibles
-		if (prefabCollectible != null && Time.time > nextSpawnTime) {
+		if (prefabToSpawn != null && Time.time > nextSpawnTime) {
 			nextSpawnTime += spawnCooldown;
 
 			if (collectibleCount < collectibleLimit)
@@ -128,7 +133,7 @@ public class GameManager : MonoBehaviour {
 			scoreGuiStyle.fontSize = 20;
 			scoreGuiStyle.normal.textColor = Color.white;
 		}
-		if (prefabCollectible == null)
+		if (prefabToSpawn == null)
 			Debug.Log ("NUSGDG: The GameManager's collectible prefab has not been assigned! The GameManager can't spawn any collectibles.");
 	}
 }

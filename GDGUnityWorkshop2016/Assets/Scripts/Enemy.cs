@@ -7,15 +7,14 @@ public class Enemy : MonoBehaviour {
     private float activeRange;
 
     [SerializeField]
-    private GameObject playerObj;
-
-    [SerializeField]
     private float speed;
-
+    
+    private GameObject playerObj;
     private Rigidbody2D rigidbody;
 
     // Use this for initialization
     void Start () {
+        playerObj = GameObject.FindGameObjectWithTag("Player");
         rigidbody = this.GetComponent<Rigidbody2D>();
 	}
 	
@@ -34,5 +33,14 @@ public class Enemy : MonoBehaviour {
             velocity += playerDist.normalized * speed;
         }
         rigidbody.velocity = velocity;
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("coll");
+        if(other.gameObject.tag == "Bullet")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

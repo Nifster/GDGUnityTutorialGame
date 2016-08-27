@@ -66,7 +66,7 @@ public class Controller : MonoBehaviour
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         lookDirection = (mousePos - (Vector2)transform.position).normalized;
-        transform.up = lookDirection;
+        transform.right = lookDirection;
     }
 
     private void Shoot()
