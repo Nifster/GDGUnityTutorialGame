@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour {
             velocity += playerDist.normalized * speed;
         }
         rigidbody.velocity = velocity;
+        transform.right = playerDist.normalized;
     }
 
     void OnCollisionEnter2D(Collision2D other)

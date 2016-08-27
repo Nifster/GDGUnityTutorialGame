@@ -374,7 +374,7 @@ MonoBehaviour:
   spawnLimitBottomLeft: {x: -7, y: -4}
   spawnLimitTopRight: {x: 7, y: 4}
   spawnCooldown: 1
-  collectibleLimit: 10
+  spawnLimit: 10
 --- !u!4 &1847073463
 Transform:
   m_ObjectHideFlags: 0

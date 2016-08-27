@@ -9,13 +9,13 @@ using System.Collections;
  * The script does the following:
  *
  * ==ONE==
- * Every X seconds, spawn a new prefabCollectible in the map.
+ * Every X seconds, spawn a new prefabToSpawn in the map.
  *   - X is determined by the variable "spawnCooldown"
  *
  * ==TWO==
  * Keep an integer variable named "score".
- *   - The function "ItemCollected" is called from Collectible.cs whenever an item is collected.
- *   - Whenever "ItemCollected" is called, increment score by 1.
+ *   - The function "EnemyKilled" is called from Bullet.cs whenever an enemy is killed.
+ *   - Whenever "EnemyKilled" is called, increment score by 1.
  *
  * ==THREE==
  * Draw a number indicating the score on the in-game GUI
@@ -53,9 +53,9 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private float spawnCooldown = 1f;
 
-	private int collectibleCount;
+	private int spawnCount;
 	[SerializeField]
-	private int collectibleLimit = 10;
+	private int spawnLimit = 10;
 
 	// Awake is called before start.
 	void Awake() {
@@ -73,22 +73,19 @@ public class GameManager : MonoBehaviour {
     public void EnemyKilled()
     {
         score++;
+        spawnCount--;
     }
-
-	public void ItemCollected() {
-		score++;
-		collectibleCount--;
-	}
+    
 
     public void ModifyScore(int scoreChange) {
         score += scoreChange;
     }
 
-    public void IncrementCollectibleCount() {
-		collectibleCount++;
+    public void IncrementSpawnCount() {
+		spawnCount++;
 	}
 
-	private void SpawnCollectible() {
+	private void SpawnPrefab() {
 		float spawnX = Random.Range(spawnLimitBottomLeft.x, spawnLimitTopRight.x);
 		float spawnY = Random.Range(spawnLimitBottomLeft.y, spawnLimitTopRight.y);
 
@@ -101,8 +98,8 @@ public class GameManager : MonoBehaviour {
 		if (prefabToSpawn != null && Time.time > nextSpawnTime) {
 			nextSpawnTime += spawnCooldown;
 
-			if (collectibleCount < collectibleLimit)
-				SpawnCollectible();
+			if (spawnCount < spawnLimit)
+				SpawnPrefab();
 		}
 	}
 

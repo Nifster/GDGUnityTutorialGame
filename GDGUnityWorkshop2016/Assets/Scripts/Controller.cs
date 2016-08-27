@@ -73,6 +73,7 @@ public class Controller : MonoBehaviour
     {
         //Not the best way to do shooting, but it's the easiest
         GameObject newBullet = Instantiate(bulletPrefab);
+        newBullet.transform.rotation = transform.rotation;
         newBullet.transform.position = muzzle.transform.position;
         newBullet.GetComponent<Rigidbody2D>().velocity = bulletSpeed * (lookDirection * speed);
 

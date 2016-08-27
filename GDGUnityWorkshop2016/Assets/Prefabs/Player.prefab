@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   muzzle: {fileID: 144020}
-  bulletPrefab: {fileID: 132314, guid: cfb9cc913f0cd5c46bd8412cbe0709c9, type: 2}
+  bulletPrefab: {fileID: 189290, guid: a98e720b931453843a5a552f42b7c4cf, type: 2}
   bulletSpeed: 5
 --- !u!212 &21299588
 SpriteRenderer:
