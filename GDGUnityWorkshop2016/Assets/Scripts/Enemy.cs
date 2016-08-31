@@ -21,27 +21,31 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //Get distance to player
-        Vector2 playerDist = (playerObj.transform.position - transform.position);
-        //Debug.Log(playerDist.magnitude);
-
-        Vector2 velocity = Vector2.zero;
-        if (playerDist.magnitude < activeRange)
+        if(playerObj != null)
         {
-            //Debug.Log("Player DETECTED");
-            //follow player
-            velocity += playerDist.normalized * speed;
+            //Get distance to player
+            Vector2 playerDist = (playerObj.transform.position - transform.position);
+            //Debug.Log(playerDist.magnitude);
+
+            Vector2 velocity = Vector2.zero;
+            if (playerDist.magnitude < activeRange)
+            {
+                //Debug.Log("Player DETECTED");
+                //follow player
+                velocity += playerDist.normalized * speed;
+            }
+            rigidbody.velocity = velocity;
+            transform.right = playerDist.normalized;
         }
-        rigidbody.velocity = velocity;
-        transform.right = playerDist.normalized;
+        
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("coll");
-        if(other.gameObject.tag == "Bullet")
+        if(other.gameObject.name.ToLower() == "player")
         {
-            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+
         }
     }
 }

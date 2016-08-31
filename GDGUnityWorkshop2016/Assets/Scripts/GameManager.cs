@@ -53,9 +53,15 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private float spawnCooldown = 1f;
 
+    [SerializeField]
+    private GameObject player;
+
 	private int spawnCount;
 	[SerializeField]
 	private int spawnLimit = 10;
+
+    [SerializeField]
+    private float spawnPosOffset;
 
 	// Awake is called before start.
 	void Awake() {
@@ -86,10 +92,31 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void SpawnPrefab() {
-		float spawnX = Random.Range(spawnLimitBottomLeft.x, spawnLimitTopRight.x);
-		float spawnY = Random.Range(spawnLimitBottomLeft.y, spawnLimitTopRight.y);
+        float spawnX;
+        float spawnY;
+        if (player != null)
+        {
+            do
+            {
+                spawnX = Random.Range(spawnLimitBottomLeft.x, spawnLimitTopRight.x);
+                spawnY = Random.Range(spawnLimitBottomLeft.y, spawnLimitTopRight.y);
+            } while ((spawnX > player.transform.position.x + spawnPosOffset || spawnX < player.transform.position.x - spawnPosOffset)
+            && (spawnY > player.transform.position.y + spawnPosOffset || spawnY < player.transform.position.y - spawnPosOffset));
 
-		Instantiate(prefabToSpawn, new Vector3(spawnX, spawnY, 0), prefabToSpawn.transform.rotation);
+            Instantiate(prefabToSpawn, new Vector3(spawnX, spawnY, 0), prefabToSpawn.transform.rotation);
+        }
+        
+
+
+        //if (spawnX > player.transform.position.x + spawnPosOffset || spawnX < player.transform.position.x - spawnPosOffset)
+        //{
+        //    if(spawnY > player.transform.position.y + spawnPosOffset || spawnY < player.transform.position.y - spawnPosOffset)
+        //    {
+        //        Instantiate(prefabToSpawn, new Vector3(spawnX, spawnY, 0), prefabToSpawn.transform.rotation);
+        //    }
+        //}
+        
+		
 	}
 
 	// Update() : Update is called once per frame
