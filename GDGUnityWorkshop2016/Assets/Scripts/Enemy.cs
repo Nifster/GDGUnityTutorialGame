@@ -20,8 +20,12 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+    }
 
-        if(playerObj != null)
+    void FixedUpdate()
+    {
+        if (playerObj != null)
         {
             //Get distance to player
             Vector2 playerDist = (playerObj.transform.position - transform.position);
@@ -36,9 +40,8 @@ public class Enemy : MonoBehaviour {
                 transform.right = playerDist.normalized;
             }
             rigidbody.velocity = velocity;
-            
+
         }
-        
     }
 
     void OnCollisionEnter2D(Collision2D other)

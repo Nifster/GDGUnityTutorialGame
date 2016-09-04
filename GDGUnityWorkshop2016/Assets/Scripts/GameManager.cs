@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 // This is a game manager script. Attach it to something.
@@ -31,38 +32,13 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance {get; private set;}
 
 	// NOTE: Anything with [SerializeField] is editable in the unity editor.
-
-	[SerializeField]
-	private GameObject prefabToSpawn = null;
-
-	//[SerializeField]
-	private Rect scoreRect = new Rect(40,40,200,100);
-	
-	//[SerializeField]
-	private GUIStyle scoreGuiStyle;
-
+    
 	private int score;
 
-	[SerializeField]
-	private Vector2 spawnLimitBottomLeft = new Vector2(-7,-4.5f);
-	[SerializeField]
-	private Vector2 spawnLimitTopRight = new Vector2(7, 4.5f);
-
-	private float nextSpawnTime;
-
-	[SerializeField]
-	private float spawnCooldown = 1f;
-
     [SerializeField]
-    private GameObject player;
-
-	private int spawnCount;
-	[SerializeField]
-	private int spawnLimit = 10;
-
-    [SerializeField]
-    private float spawnPosOffset;
-
+    private Text scoreText;
+   
+    
 	// Awake is called before start.
 	void Awake() {
 		instance = this;
@@ -70,94 +46,26 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CheckForErrors();
 
-		score = 0;
-		nextSpawnTime = Time.time + spawnCooldown;
-	}
-
-    public void EnemyKilled()
-    {
-        score++;
-        spawnCount--;
-    }
-    
-
-    public void ModifyScore(int scoreChange) {
-        score += scoreChange;
-    }
-
-    public void IncrementSpawnCount() {
-		spawnCount++;
-	}
-
-	private void SpawnPrefab() {
-        float spawnX;
-        float spawnY;
-        if (player != null)
-        {
-            do
-            {
-                spawnX = Random.Range(spawnLimitBottomLeft.x, spawnLimitTopRight.x);
-                spawnY = Random.Range(spawnLimitBottomLeft.y, spawnLimitTopRight.y);
-            } while ((spawnX > player.transform.position.x + spawnPosOffset || spawnX < player.transform.position.x - spawnPosOffset)
-            && (spawnY > player.transform.position.y + spawnPosOffset || spawnY < player.transform.position.y - spawnPosOffset));
-
-            Instantiate(prefabToSpawn, new Vector3(spawnX, spawnY, 0), prefabToSpawn.transform.rotation);
-        }
-        
-
-
-        //if (spawnX > player.transform.position.x + spawnPosOffset || spawnX < player.transform.position.x - spawnPosOffset)
-        //{
-        //    if(spawnY > player.transform.position.y + spawnPosOffset || spawnY < player.transform.position.y - spawnPosOffset)
-        //    {
-        //        Instantiate(prefabToSpawn, new Vector3(spawnX, spawnY, 0), prefabToSpawn.transform.rotation);
-        //    }
-        //}
-        
-		
+        score = 0;
 	}
 
 	// Update() : Update is called once per frame
 	void Update() {
-		// Controls the spawning of collectibles
-		if (prefabToSpawn != null && Time.time > nextSpawnTime) {
-			nextSpawnTime += spawnCooldown;
 
-			if (spawnCount < spawnLimit)
-				SpawnPrefab();
-		}
+        scoreText.text = score.ToString();
 	}
+    
+    public void EnemyKilled()
+    {
+        score++;
+    }
+    
+    public void ModifyScore(int scoreChange)
+    {
+        score += scoreChange;
+    }
+    
+    
 
-	// OnGUI() : Use this for drawing things directly on to the screen.
-	void OnGUI() {
-		GUI.Label(scoreRect, score.ToString(), scoreGuiStyle);
-	}
-
-	// OnDrawGizmos() : This draws the white guidelines in the unity editor.
-	void OnDrawGizmos() {
-		Gizmos.DrawLine (new Vector3(spawnLimitBottomLeft.x, spawnLimitBottomLeft.y, 0),
-		                 new Vector3(spawnLimitBottomLeft.x, spawnLimitTopRight.y, 0));
-		Gizmos.DrawLine (new Vector3(spawnLimitBottomLeft.x, spawnLimitBottomLeft.y, 0),
-		                 new Vector3(spawnLimitTopRight.x, spawnLimitBottomLeft.y, 0));
-		Gizmos.DrawLine (new Vector3(spawnLimitTopRight.x, spawnLimitTopRight.y, 0),
-		                 new Vector3(spawnLimitBottomLeft.x, spawnLimitTopRight.y, 0));
-		Gizmos.DrawLine (new Vector3(spawnLimitTopRight.x, spawnLimitTopRight.y, 0),
-		                 new Vector3(spawnLimitTopRight.x, spawnLimitBottomLeft.y, 0));
-	}
-
-
-	// This function is not important.
-	// I made it just to diagnose some possible errors that you might make during the workshop :D
-	void CheckForErrors() {
-		// Initialise font style if not set.
-		if (scoreGuiStyle == null) {
-			scoreGuiStyle = new GUIStyle ();
-			scoreGuiStyle.fontSize = 20;
-			scoreGuiStyle.normal.textColor = Color.white;
-		}
-		if (prefabToSpawn == null)
-			Debug.Log ("NUSGDG: The GameManager's collectible prefab has not been assigned! The GameManager can't spawn any collectibles.");
-	}
 }

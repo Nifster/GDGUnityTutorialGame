@@ -17,18 +17,31 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float bulletSpeed;
 
+    private Rigidbody2D rigidbody;
+
 	// Use this for initialization
 	void Start ()
 	{
-	    //Debug.Log("Hello World!");
-	}
+        //Debug.Log("Hello World!");
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
 	{
 	    //Debug.Log("Hello World - Update!");
-	    var rigidbody = GetComponent<Rigidbody2D>();
-        var velocity = Vector3.zero;
+	    
+        LookAtMouse();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 velocity = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -47,14 +60,7 @@ public class Controller : MonoBehaviour
             velocity += Vector3.right * speed;
         }
 
-	    rigidbody.velocity = velocity;
-
-        LookAtMouse();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Shoot();
-        }
+        rigidbody.velocity = velocity;
     }
 
     public void IncreaseSpeed(float increment)

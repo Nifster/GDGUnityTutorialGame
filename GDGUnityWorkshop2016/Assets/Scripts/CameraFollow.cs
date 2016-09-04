@@ -16,6 +16,10 @@ public class CameraFollow : MonoBehaviour {
 	void Update () {
 
         //Camera sticks to target (in this case, the player)
-        transform.localPosition = new Vector3(targetObj.transform.localPosition.x, targetObj.transform.localPosition.y, -10);
+        if(targetObj != null)
+        {
+            transform.localPosition = new Vector3(targetObj.transform.localPosition.x, targetObj.transform.localPosition.y, -10);
+        }
+        
 	}
 }
