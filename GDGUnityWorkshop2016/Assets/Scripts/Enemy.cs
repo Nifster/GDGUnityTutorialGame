@@ -33,9 +33,10 @@ public class Enemy : MonoBehaviour {
                 //Debug.Log("Player DETECTED");
                 //follow player
                 velocity += playerDist.normalized * speed;
+                transform.right = playerDist.normalized;
             }
             rigidbody.velocity = velocity;
-            transform.right = playerDist.normalized;
+            
         }
         
     }
