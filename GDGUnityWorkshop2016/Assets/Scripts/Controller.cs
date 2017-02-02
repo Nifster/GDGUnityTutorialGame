@@ -41,26 +41,35 @@ public class Controller : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 velocity = Vector3.zero;
+		//Method one: Input.GetKey
+        //Vector3 velocity = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            velocity += Vector3.up * speed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            velocity += Vector3.down * speed;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            velocity += Vector3.left * speed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            velocity += Vector3.right * speed;
-        }
+//		if (Input.GetKey(KeyCode.W))
+//        {
+//            velocity += Vector3.up * speed;
+//        }
+//        if (Input.GetKey(KeyCode.S))
+//        {
+//            velocity += Vector3.down * speed;
+//        }
+//        if (Input.GetKey(KeyCode.A))
+//        {
+//            velocity += Vector3.left * speed;
+//        }
+//        if (Input.GetKey(KeyCode.D))
+//        {
+//            velocity += Vector3.right * speed;
+//        }
+//
+//		rigidbody.velocity = velocity;
 
-        rigidbody.velocity = velocity;
+		//Method Two: Input.GetAxis
+		float moveHorizontal =Input.GetAxis ("Horizontal");
+		float moveVertical = Input.GetAxis ("Vertical");
+		Vector2 velocity = new Vector2 (moveHorizontal, moveVertical) * speed;
+
+
+		rigidbody.velocity = velocity;
     }
 
     public void IncreaseSpeed(float increment)
